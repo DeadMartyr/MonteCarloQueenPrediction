@@ -13,15 +13,31 @@ public class Main {
         init(numOfQueens);
 //        nQueens(0,numOfQueens);
 
-        System.out.println("Result for " + numOfQueens + ": " + nQueensEstimate(numOfQueens));
+        ArrayList<Integer> results = new ArrayList<>();
+        int cycles = 300;
+
+        for(int i=0; i<cycles; i++){
+            results.add(nQueensEstimate(numOfQueens));
+        }
+
+        long temp = 0;
+
+        for(Integer a: results){
+            temp += a;
+        }
+
+        double average = ((double) temp)/(results.size());
+
+        System.out.println("The computed number of 'nodes' checked by backtracking for the " + numOfQueens + "-Queens Problem is estimated with " + cycles + " cycles as: " + average + " nodes");
+
     }
 
     /**
      * nQueens recursively call, Utilizing "promising" but only going through 1 promising child at each level,
      * this is not exact and will return different numbers each iteration.
      * <p>
-     * This is intended to be run multiple times so you can average the returned values and get an idea of what it
-     * actually would be, as for large sizes of n, you cannot compute every single permutation, even with "pruning"
+     * This is intended to be run multiple times to be averaged and get an idea of what it actually would be,
+     * as for large sizes of n, you cannot compute every single permutation, even with "pruning"
      *
      * @param n - max dimension of board
      */
@@ -37,7 +53,6 @@ public class Main {
         while (m != 0) {//NO MORE PROMISING CHILDREN
             int t = n;//Total possible "children" is n, though not all promising
             mprod *= m; //Multiply value by m
-            numnodes += mprod * t; //Add value by mprod times t
 
             for (int i = 0; i < n; i++) { //find all promising children, add indexes to list to select from
                 if (isPromising(k, i)) {
@@ -55,6 +70,8 @@ public class Main {
                 k++;
             }
             promisingAtK.clear();
+
+            numnodes += mprod * t; //Add value by mprod times t
         }
         return numnodes;
     }
