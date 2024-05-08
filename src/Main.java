@@ -5,8 +5,9 @@ public class Main {
     private static Random rand = new Random();
 
     public static void main(String[] args) {
-        //This should ensure that "random" numbers are sufficiently random
-        rand.setSeed(System.currentTimeMillis());
+        //This is unneeded as the Random object is seeded in its constructor
+        //but I can use this to repeat sequences with pre-chosen seeds
+        //rand.setSeed(System.currentTimeMillis());
 
         System.out.println("Random Number: " + rand.nextInt(5));
     }
