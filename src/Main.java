@@ -33,7 +33,7 @@ public class Main {
     }
 
     /**
-     * nQueens recursively call, Utilizing "promising" but only going through 1 promising child at each level,
+     * nQueens, Utilizing "promising" but only going through 1 promising child at each level,
      * this is not exact and will return different numbers each iteration.
      * <p>
      * This is intended to be run multiple times to be averaged and get an idea of what it actually would be,
