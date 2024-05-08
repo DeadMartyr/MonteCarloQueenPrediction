@@ -130,5 +130,8 @@ public class Main {
             }
             System.out.print("\n");
         }
+        for(int x=0; x<posQueens.length; x++){
+            System.out.print(String.format(format, "---"));
+        }
     }
 }
