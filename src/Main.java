@@ -11,7 +11,7 @@ public class Main {
         int numOfQueens = 12;
 
         init(numOfQueens);
-//        nQueens(0,numOfQueens);
+//        nQueens(0,numOfQueens); //DO NOT UNCOMMENT THIS, THIS WILL ATTEMPT TO TRAVERSE EVERY PROMISING NODE, CAN BE SLOW FOR LARGE VALUES OF N
 
         ArrayList<Integer> results = new ArrayList<>();
         int cycles = 300;
