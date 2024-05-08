@@ -59,7 +59,6 @@ public class Main {
      */
     private static void nQueens(int k, int n){
         for(int i=0; i<n; i++){
-            System.out.println("k: " + k + " i: " + i);
             if(isPromising(k,i)){
                 posQueens[k]=i;
                 if(k==n-1){
