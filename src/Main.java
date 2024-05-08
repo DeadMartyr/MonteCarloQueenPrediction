@@ -63,6 +63,7 @@ public class Main {
                 posQueens[k]=i;
                 if(k==n-1){
                     printPositions();
+                    displayPositions();
                     System.out.println();
                     return;
                 }
@@ -105,5 +106,29 @@ public class Main {
             System.out.print("Row " + a + "'s Queen is on " + posQueens[a] + "\t");
         }
         System.out.println();
+    }
+
+    private static void displayPositions(){
+        String format = "| %3s |";
+        for(int y=0; y<posQueens.length; y++){
+
+            for(int x=0; x<posQueens.length; x++){
+                System.out.print(String.format(format, "---"));
+            }
+            System.out.print("\n");
+
+            for(int x=0; x<posQueens.length; x++){
+
+                String value;
+                if(posQueens[y]==x){
+                    value = "" + posQueens[y];
+                }
+                else{
+                    value = "";
+                }
+                System.out.print(String.format(format,value));
+            }
+            System.out.print("\n");
+        }
     }
 }
