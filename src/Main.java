@@ -1,58 +1,67 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
 
-    private static Random rand = new Random();
+    private static Random rand;
     private static int[] posQueens;
 
     public static void main(String[] args) {
-        //This is unneeded as the Random object is seeded in its constructor
-        //but I can use this to repeat sequences with pre-chosen seeds
-        //rand.setSeed(System.currentTimeMillis());
 
-        System.out.println("Random Number: " + rand.nextInt(5));
+        int numOfQueens = 12;
 
-        int NumOfQueens = 4;
+        init(numOfQueens);
+//        nQueens(0,numOfQueens);
 
-        init(NumOfQueens);
-        nQueens(0,NumOfQueens);
-
+        System.out.println("Result for " + numOfQueens + ": " + nQueensEstimate(numOfQueens));
     }
 
-//    private int estimate(){
-//        int v = startingNode;//REPLACE
-//        int numnodes = 1,
-//                m = 1,
-//                mprod = 1;
-//
-//        while (m != 0){//NO MORE PROMISING CHILDREN
-//            int t = v.getNumTotalChildren();
-//            mprod *= m; //Multiply value by m
-//            numnodes += mprod * t; //Add value by mprod times t
-//            m = v.getNumPromisingChildren();
-//
-//            if(m != 0){
-//                //Create index from 0 to the number of promising children minus 1
-//                int randomNum = rand.nextInt(v.getNumTotalChildren());
-//                //Get array of promising children of current v, set v to the random index of that array
-//                v = v.getArrayPromisingChildren()[randomNum];
-//            }
-//        }
-//        return numnodes;
-//    }
-
     /**
-     * Initialize global variables
+     * nQueens recursively call, Utilizing "promising" but only going through 1 promising child at each level,
+     * this is not exact and will return different numbers each iteration.
+     * <p>
+     * This is intended to be run multiple times so you can average the returned values and get an idea of what it
+     * actually would be, as for large sizes of n, you cannot compute every single permutation, even with "pruning"
      *
      * @param n - max dimension of board
      */
-    private static void init(int n){
-        posQueens = new int[n];
+    private static int nQueensEstimate(int n){
+        int k = 0;
+
+        int numnodes = 1, //this is the result
+                m = 1, //this is the number of promising children at any given step
+                mprod = 1;
+
+        ArrayList<Integer> promisingAtK = new ArrayList<>();
+
+        while (m != 0) {//NO MORE PROMISING CHILDREN
+            int t = n;//Total possible "children" is n, though not all promising
+            mprod *= m; //Multiply value by m
+            numnodes += mprod * t; //Add value by mprod times t
+
+            for (int i = 0; i < n; i++) { //find all promising children, add indexes to list to select from
+                if (isPromising(k, i)) {
+                    promisingAtK.add(i);
+                }
+            }
+
+            m = promisingAtK.toArray().length;
+
+            if (m != 0 && k<n) {
+                //Create index from 0 to the number of promising children (not including that number, "<" not "<=")
+                int randomNum = rand.nextInt(promisingAtK.size());
+                //Get array of promising children of current v, set v to the random index of that array
+                posQueens[k] = promisingAtK.get(randomNum);
+                k++;
+            }
+            promisingAtK.clear();
+        }
+        return numnodes;
     }
 
     /**
-     * nQueens recursively call
+     * nQueens recursively call, Utilizing "promising" but computing ENTIRE Tree,
+     * not for sizes of n that are excessively large
      *
      * @param k - current loop
      * @param n - max dimension of board
@@ -99,6 +108,16 @@ public class Main {
         }
         //no conflicts found
         return true;
+    }
+
+    /**
+     * Initialize global variables
+     *
+     * @param n - max dimension of board
+     */
+    private static void init(int n){
+        posQueens = new int[n];
+        rand = new Random();
     }
 
     private static void printPositions(){
